@@ -15,26 +15,26 @@ import org.springframework.web.bind.annotation.RestController;
 import com.mustafa.steelorbis.dto.SteelOrbisUsersDto;
 import com.mustafa.steelorbis.entity.SteelOrbisUsers;
 import com.mustafa.steelorbis.repository.UserRepository;
+import com.mustafa.steelorbis.service.SteelOrbisUsersService;
 
 @RestController
 @RequestMapping("/user")
 public class Controller {
 
 	@Autowired
-	private UserRepository userRepository;
-	
+	private SteelOrbisUsersService steelOrbisUsersService;
 	
 	 @GetMapping("/userList")
 	 public ArrayList<SteelOrbisUsers> userList() {
-		return (ArrayList<SteelOrbisUsers>) userRepository.findAll();
+		return steelOrbisUsersService.getUserListAll();
 	}
 	 
 	 @PostMapping("/userLogin")
 	 public ResponseEntity<Object> userByNamePassword( @RequestBody SteelOrbisUsersDto person) {
 		 
 		
-		 SteelOrbisUsers result = userRepository.findByUserNameAndPassword(person.getUserName(), person.getPassword());
-		 
+		 SteelOrbisUsers result = steelOrbisUsersService.getUserByUserNamePassword(person.getUserName(), person.getPassword());
+		 		 
 		 if(result != null )
 		 {
 			 return	ResponseEntity.ok(true);
@@ -48,7 +48,7 @@ public class Controller {
 	 public ResponseEntity<Object> userByNamePassword2(@PathVariable String userName, @PathVariable String password) {
 		 
 		
-		 SteelOrbisUsers result = userRepository.findByUserNameAndPassword(userName, password);
+		 SteelOrbisUsers result = steelOrbisUsersService.getUserByUserNamePassword(userName, password);
 		 
 		 if(result != null )
 		 {
